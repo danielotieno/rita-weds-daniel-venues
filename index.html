@@ -221,6 +221,162 @@
         text-transform: uppercase !important;
       }
 
+      .date-section {
+        background: linear-gradient(
+          135deg,
+          var(--bg-header) 0%,
+          rgba(176, 159, 196, 0.2) 100%
+        );
+        border-radius: 30px;
+        padding: 50px 40px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+        text-align: center;
+        box-shadow: 0 25px 60px var(--shadow-color);
+        border: 2px solid var(--border-color);
+      }
+
+      .date-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(207, 167, 102, 0.1) 50%,
+          transparent 70%
+        );
+        animation: shimmer 4s ease-in-out infinite;
+      }
+
+      .date-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .date-label {
+        font-family: 'Dancing Script', cursive;
+        font-size: 2rem;
+        color: var(--text-light);
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        opacity: 0.9;
+      }
+
+      .date-main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        margin-bottom: 20px;
+      }
+
+      .date-day {
+        font-size: 6rem;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--accent-secondary) 0%,
+          var(--accent-primary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        line-height: 1;
+      }
+
+      .date-month-year {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .date-month {
+        font-family: 'Dancing Script', cursive;
+        font-size: 3rem;
+        color: var(--text-light);
+        line-height: 1;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .date-year {
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: var(--accent-primary);
+        letter-spacing: 2px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .date-weekday {
+        font-size: 1.3rem;
+        color: var(--text-light);
+        opacity: 0.9;
+        margin-bottom: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .countdown-text {
+        font-family: 'Dancing Script', cursive;
+        font-size: 1.5rem;
+        color: var(--accent-secondary);
+        font-style: italic;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      }
+
+      .date-decoration {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      .floating-heart {
+        position: absolute;
+        font-size: 2rem;
+        opacity: 0.3;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .floating-heart:nth-child(1) {
+        top: 20%;
+        left: 15%;
+        animation-delay: 0s;
+      }
+
+      .floating-heart:nth-child(2) {
+        top: 30%;
+        right: 20%;
+        animation-delay: 2s;
+      }
+
+      .floating-heart:nth-child(3) {
+        bottom: 25%;
+        left: 20%;
+        animation-delay: 4s;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) scale(1);
+          opacity: 0.3;
+        }
+        50% {
+          transform: translateY(-20px) scale(1.1);
+          opacity: 0.6;
+        }
+      }
+
       .couple-section {
         background: var(--bg-secondary);
         border-radius: 25px;
@@ -738,6 +894,45 @@
         .verse-header h3 {
           font-size: 1.3rem;
         }
+
+        .date-section {
+          padding: 35px 20px;
+          margin-bottom: 30px;
+        }
+
+        .date-main {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .date-month-year {
+          align-items: center;
+          text-align: center;
+        }
+
+        .date-day {
+          font-size: 4rem;
+        }
+
+        .date-month {
+          font-size: 2.2rem;
+        }
+
+        .date-year {
+          font-size: 1.4rem;
+        }
+
+        .date-label {
+          font-size: 1.6rem;
+        }
+
+        .countdown-text {
+          font-size: 1.2rem;
+        }
+
+        .floating-heart {
+          font-size: 1.5rem;
+        }
       }
 
       .loading {
@@ -759,6 +954,27 @@
         <p>Join us for our special day at these beautiful locations</p>
         <div class="elegant-divider">
           <span class="divider-ornament">❦</span>
+        </div>
+      </div>
+
+      <!-- Wedding Date Section -->
+      <div class="date-section">
+        <div class="date-content">
+          <div class="date-label">Save the Date</div>
+          <div class="date-main">
+            <span class="date-day">16</span>
+            <div class="date-month-year">
+              <span class="date-month">August</span>
+              <span class="date-year">2025</span>
+            </div>
+          </div>
+          <div class="date-weekday">Saturday</div>
+          <div class="countdown-text">We can't wait to celebrate with you!</div>
+        </div>
+        <div class="date-decoration">
+          <div class="floating-heart">💕</div>
+          <div class="floating-heart">💒</div>
+          <div class="floating-heart">💕</div>
         </div>
       </div>
 
