@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Venues - Church & Reception</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+      :root {
+        /* Light mode colors */
+        --bg-primary: linear-gradient(
+          135deg,
+          #f8f6ff 0%,
+          #e8e4f0 50%,
+          #f0f8ff 100%
+        );
+        --bg-secondary: rgba(255, 255, 255, 0.95);
+        --bg-header: linear-gradient(
+          135deg,
+          #212947 0%,
+          #2a3458 50%,
+          #212947 100%
+        );
+        --text-primary: #212947;
+        --text-secondary: #4a5568;
+        --text-light: white;
+        --accent-primary: #b09fc4;
+        --accent-secondary: #cfa766;
+        --border-color: rgba(176, 159, 196, 0.2);
+        --shadow-color: rgba(33, 41, 71, 0.15);
+        --map-bg: linear-gradient(135deg, #f8f6ff 0%, #e8e4f0 100%);
+        --map-border: rgba(176, 159, 196, 0.3);
+      }
+
+      [data-theme='dark'] {
+        /* Dark mode colors */
+        --bg-primary: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f0f23 100%
+        );
+        --bg-secondary: rgba(26, 26, 46, 0.95);
+        --bg-header: linear-gradient(
+          135deg,
+          #0f0f23 0%,
+          #1a1a2e 50%,
+          #0f0f23 100%
+        );
+        --text-primary: #e8e4f0;
+        --text-secondary: #b8b5c3;
+        --text-light: #f8f6ff;
+        --accent-primary: #b09fc4;
+        --accent-secondary: #cfa766;
+        --border-color: rgba(176, 159, 196, 0.3);
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --map-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        --map-border: rgba(176, 159, 196, 0.4);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: var(--bg-primary);
+        min-height: 100vh;
+        color: var(--text-primary);
+        position: relative;
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 20% 20%,
+            rgba(176, 159, 196, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(207, 167, 102, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 60%,
+            rgba(33, 41, 71, 0.05) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 40px 0;
+        background: var(--bg-header);
+        color: var(--text-light);
+        border-radius: 25px;
+        box-shadow: 0 15px 40px var(--shadow-color);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent 30%,
+          rgba(207, 167, 102, 0.1) 50%,
+          transparent 70%
+        );
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      .theme-switcher {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        z-index: 10;
+      }
+
+      .theme-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .theme-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-color: var(--accent-secondary);
+        transform: scale(1.1);
+      }
+
+      .theme-btn i {
+        font-size: 1.2rem;
+        color: var(--text-light);
+        transition: transform 0.3s ease;
+      }
+
+      .theme-btn:hover i {
+        transform: rotate(20deg);
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          transform: translateX(-100%);
+        }
+        50% {
+          transform: translateX(100%);
+        }
+      }
+
+      .header h1 {
+        font-family: 'Dancing Script', cursive;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        background: linear-gradient(
+          135deg,
+          #ffffff 0%,
+          #cfa766 50%,
+          #ffffff 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        font-weight: 300;
+      }
+
+      .couple-subtitle {
+        font-size: 1.1rem !important;
+        font-weight: 400 !important;
+        opacity: 0.85 !important;
+        margin-bottom: 15px !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+      }
+
+      .couple-section {
+        background: var(--bg-secondary);
+        border-radius: 25px;
+        padding: 40px;
+        margin-bottom: 40px;
+        box-shadow: 0 20px 50px var(--shadow-color);
+        border: 2px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 40px;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .couple-photo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .couple-image {
+        width: 250px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px var(--shadow-color);
+        border: 3px solid var(--accent-primary);
+        transition: transform 0.3s ease;
+      }
+
+      .couple-image:hover {
+        transform: scale(1.05);
+      }
+
+      .couple-image-placeholder {
+        width: 250px;
+        height: 300px;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary) 0%,
+          var(--accent-secondary) 100%
+        );
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: white;
+        box-shadow: 0 15px 35px var(--shadow-color);
+        transition: transform 0.3s ease;
+      }
+
+      .couple-image-placeholder:hover {
+        transform: scale(1.05);
+      }
+
+      .image-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+      }
+
+      .couple-image-placeholder p {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .couple-image-placeholder small {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      .bible-verses {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .verse {
+        padding: 25px;
+        background: rgba(176, 159, 196, 0.1);
+        border-radius: 15px;
+        border-left: 4px solid var(--accent-primary);
+        transition: all 0.3s ease;
+      }
+
+      .verse:hover {
+        background: rgba(176, 159, 196, 0.15);
+        transform: translateX(5px);
+      }
+
+      .daniel-verse {
+        border-left-color: var(--accent-secondary);
+      }
+
+      .rita-verse {
+        border-left-color: var(--accent-primary);
+      }
+
+      .verse-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .verse-header h3 {
+        font-family: 'Dancing Script', cursive;
+        font-size: 1.5rem;
+        color: var(--text-primary);
+        margin: 0;
+      }
+
+      .verse-reference {
+        font-size: 0.9rem;
+        color: var(--accent-primary);
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      .verse-text {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        font-style: italic;
+        margin: 0;
+        position: relative;
+      }
+
+      .verse-text::before {
+        font-size: 2rem;
+        color: var(--accent-primary);
+        position: absolute;
+        left: -15px;
+        top: -5px;
+      }
+
+      .verse-text::after {
+        font-size: 2rem;
+        color: var(--accent-primary);
+        position: absolute;
+        right: -10px;
+        bottom: -15px;
+      }
+
+      .venues-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      .venue-card {
+        background: var(--bg-secondary);
+        border-radius: 25px;
+        padding: 35px;
+        box-shadow: 0 20px 50px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease,
+          background 0.3s ease;
+        border: 2px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .venue-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          #212947 0%,
+          #b09fc4 50%,
+          #cfa766 100%
+        );
+      }
+
+      .venue-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 60px var(--shadow-color);
+      }
+
+      .venue-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 25px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid var(--border-color);
+        position: relative;
+        z-index: 1;
+      }
+
+      .venue-icon {
+        font-size: 2.8rem;
+        margin-right: 18px;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary) 0%,
+          var(--accent-secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(2px 2px 4px var(--shadow-color));
+      }
+
+      .venue-title {
+        font-family: 'Dancing Script', cursive;
+        font-size: 2.4rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        text-shadow: 1px 1px 2px var(--accent-primary);
+        transition: color 0.3s ease;
+      }
+
+      .venue-name {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+      }
+
+      .venue-details {
+        margin-bottom: 20px;
+      }
+
+      .detail-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        font-size: 1.05rem;
+        color: var(--text-secondary);
+        transition: color 0.3s ease;
+      }
+
+      .detail-item i {
+        width: 22px;
+        margin-right: 12px;
+        color: var(--accent-primary);
+      }
+
+      .map-container {
+        width: 100%;
+        height: 300px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+      }
+
+      .map-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .map-placeholder {
+        width: 100%;
+        height: 100%;
+        background: var(--map-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 30px;
+        border: 2px dashed var(--map-border);
+        transition: all 0.3s ease;
+      }
+
+      .map-placeholder:hover {
+        background: var(--map-bg);
+        border-color: var(--accent-primary);
+      }
+
+      .map-icon {
+        font-size: 3rem;
+        color: var(--accent-primary);
+        margin-bottom: 15px;
+      }
+
+      .map-placeholder h3 {
+        color: var(--text-primary);
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+      }
+
+      .map-placeholder p {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin-bottom: 8px;
+        transition: color 0.3s ease;
+      }
+
+      .map-note {
+        font-size: 0.9rem !important;
+        color: var(--accent-primary) !important;
+        font-style: italic;
+        margin-top: 10px !important;
+      }
+
+      .directions-btn {
+        display: inline-block;
+        background: var(--bg-header);
+        color: var(--text-light);
+        padding: 18px 35px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 25px var(--shadow-color);
+        width: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .directions-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(207, 167, 102, 0.3),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .directions-btn:hover::before {
+        left: 100%;
+      }
+
+      .directions-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 35px var(--shadow-color);
+      }
+
+      .directions-btn i {
+        margin-right: 10px;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 40px 0;
+        background: var(--bg-secondary);
+        border-radius: 25px;
+        box-shadow: 0 15px 40px var(--shadow-color);
+        margin-top: 50px;
+        border: 2px solid var(--border-color);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+      }
+
+      .footer p {
+        font-size: 1.2rem;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .footer .hearts {
+        font-size: 1.8rem;
+        background: linear-gradient(
+          135deg,
+          var(--accent-primary) 0%,
+          var(--accent-secondary) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0 15px;
+        filter: drop-shadow(2px 2px 4px var(--shadow-color));
+      }
+
+      .footer-blessing {
+        font-size: 1rem !important;
+        font-style: italic !important;
+        color: var(--text-secondary) !important;
+        margin: 20px 0 !important;
+        max-width: 600px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        line-height: 1.5 !important;
+      }
+
+      .footer-signature {
+        font-size: 1.1rem !important;
+        font-family: 'Dancing Script', cursive !important;
+        color: var(--accent-primary) !important;
+        margin-top: 20px !important;
+        font-weight: 600 !important;
+      }
+
+      .elegant-divider {
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .divider-ornament {
+        font-size: 2rem;
+        color: var(--accent-secondary);
+        text-shadow: 2px 2px 4px var(--shadow-color);
+        display: inline-block;
+        animation: gentle-pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes gentle-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+
+      .premium-accent {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        background: radial-gradient(
+          circle,
+          rgba(207, 167, 102, 0.1) 0%,
+          transparent 70%
+        );
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .premium-accent.top-left {
+        top: -50px;
+        left: -50px;
+      }
+
+      .premium-accent.bottom-right {
+        bottom: -50px;
+        right: -50px;
+      }
+
+      @media (max-width: 768px) {
+        .venues-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .header h1 {
+          font-size: 2.5rem;
+        }
+
+        .venue-card {
+          padding: 20px;
+        }
+
+        .container {
+          padding: 15px;
+        }
+
+        .theme-switcher {
+          top: 10px;
+          right: 10px;
+        }
+
+        .theme-btn {
+          width: 40px;
+          height: 40px;
+          border-width: 1px;
+        }
+
+        .theme-btn i {
+          font-size: 1rem;
+        }
+
+        .couple-section {
+          grid-template-columns: 1fr;
+          gap: 30px;
+          padding: 25px;
+        }
+
+        .couple-image {
+          width: 200px;
+          height: 240px;
+        }
+
+        .couple-image-placeholder {
+          width: 200px;
+          height: 240px;
+        }
+
+        .verse {
+          padding: 20px;
+        }
+
+        .verse-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+        }
+
+        .verse-header h3 {
+          font-size: 1.3rem;
+        }
+      }
+
+      .loading {
+        text-align: center;
+        padding: 20px;
+        color: #5a6c7d;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="theme-switcher">
+          <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">
+            <i class="fas fa-moon" id="theme-icon"></i>
+          </button>
+        </div>
+        <h1>Rita Weds Daniel</h1>
+        <p>Join us for our special day at these beautiful locations</p>
+        <div class="elegant-divider">
+          <span class="divider-ornament">❦</span>
+        </div>
+      </div>
+
+      <!-- Couple Section -->
+      <div class="couple-section">
+        <div class="couple-photo">
+          <img src="couples.jpeg" alt="Rita & Daniel" class="couple-image" />
+        </div>
+        <div class="couple-content">
+          <div class="bible-verses">
+            <div class="verse daniel-verse">
+              <div class="verse-header">
+                <h3>Daniel says:</h3>
+                <span class="verse-reference">Song of Solomon 2:2</span>
+              </div>
+              <p class="verse-text">
+                "Like a lily among thorns is my darling among the young women."
+              </p>
+            </div>
+            <div class="verse rita-verse">
+              <div class="verse-header">
+                <h3>Rita says:</h3>
+                <span class="verse-reference">Song of Solomon 2:3</span>
+              </div>
+              <p class="verse-text">
+                "Like an apple tree among the trees of the forest is my beloved
+                among the young men."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="venues-grid">
+        <!-- Church Venue -->
+        <div class="venue-card">
+          <div class="premium-accent top-left"></div>
+          <div class="venue-header">
+            <i class="fas fa-church venue-icon"></i>
+            <div class="venue-title">Church Ceremony</div>
+          </div>
+          <div class="venue-name">ACK Emmanuel Kengeleni Church</div>
+          <div class="venue-details">
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Kengeleni, Mombasa, Kenya</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-clock"></i>
+              <span>Wedding Ceremony</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-heart"></i>
+              <span>Where we say "I Do"</span>
+            </div>
+          </div>
+          <div class="map-container">
+            <div class="map-placeholder">
+              <div class="map-icon">
+                <i class="fas fa-map-marked-alt"></i>
+              </div>
+              <h3>ACK Emmanuel Kengeleni Church</h3>
+              <p>Kengeleni, Mombasa, Kenya</p>
+              <p class="map-note">
+                Click "Get Directions" below to open in Google Maps
+              </p>
+            </div>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/ACK+Emmanuel+Kengeleni+Church,+Kengeleni,+Mombasa,+Kenya"
+            target="_blank"
+            class="directions-btn">
+            <i class="fas fa-directions"></i>
+            Get Directions to Church
+          </a>
+        </div>
+
+        <!-- Reception Venue -->
+        <div class="venue-card">
+          <div class="premium-accent bottom-right"></div>
+          <div class="venue-header">
+            <i class="fas fa-glass-cheers venue-icon"></i>
+            <div class="venue-title">Reception</div>
+          </div>
+          <div class="venue-name">Amwaj Seafront Venue</div>
+          <div class="venue-details">
+            <div class="detail-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Off Tom Mboya Rd, Tudor, Mombasa</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-utensils"></i>
+              <span>Lunch & Dancing</span>
+            </div>
+            <div class="detail-item">
+              <i class="fas fa-heart"></i>
+              <span>Where we celebrate</span>
+            </div>
+          </div>
+          <div class="map-container">
+            <div class="map-placeholder">
+              <div class="map-icon">
+                <i class="fas fa-map-marked-alt"></i>
+              </div>
+              <h3>Amwaj Seafront Venue</h3>
+              <p>Off Tom Mboya Rd, Tudor, Mombasa</p>
+              <p class="map-note">
+                Click "Get Directions" below to open in Google Maps
+              </p>
+            </div>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/Amwaj+Seafront+Venue,+Tom+Mboya+Rd,+Tudor,+Mombasa,+Kenya"
+            target="_blank"
+            class="directions-btn">
+            <i class="fas fa-directions"></i>
+            Get Directions to Reception
+          </a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p>We can't wait to celebrate with you!</p>
+        <div class="elegant-divider">
+          <span class="divider-ornament">❦</span>
+        </div>
+        <p class="footer-blessing">
+          "When the time is right, I, the Lord, will make it happen." - Isaiah
+          60:22
+        </p>
+        <div class="hearts">💕 💒 💕</div>
+        <p class="footer-signature">With love, Rita & Daniel</p>
+      </div>
+    </div>
+
+    <script>
+      // Theme switching functionality
+      document.addEventListener('DOMContentLoaded', function () {
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Check for saved theme preference or default to light mode
+        const savedTheme = localStorage.getItem('wedding-theme') || 'light';
+        setTheme(savedTheme);
+
+        // Theme toggle event listener
+        themeToggle.addEventListener('click', function () {
+          const currentTheme = body.getAttribute('data-theme') || 'light';
+          const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+          setTheme(newTheme);
+          localStorage.setItem('wedding-theme', newTheme);
+        });
+
+        function setTheme(theme) {
+          if (theme === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            themeIcon.className = 'fas fa-sun';
+          } else {
+            body.removeAttribute('data-theme');
+            themeIcon.className = 'fas fa-moon';
+          }
+        }
+
+        // Add some interactive effects to venue cards
+        const cards = document.querySelectorAll('.venue-card');
+
+        cards.forEach((card) => {
+          card.addEventListener('mouseenter', function () {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+          });
+
+          card.addEventListener('mouseleave', function () {
+            this.style.transform = 'translateY(0) scale(1)';
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
